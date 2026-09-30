@@ -29,7 +29,7 @@ class Livro(Base):
     editora_id = Column(Integer, ForeignKey('editoras.id'), nullable=False)
     editora = relationship("Editora", back_populates="livros")
 
-# CONEXÃO COM BANCO DE DADOS
+# conexão do bd
 
 def conectar_banco():
 
@@ -55,7 +55,7 @@ def conectar_banco():
 
     engine = create_engine(db_url)
     
-    # ADICIONE ESTA LINHA PARA LIMPAR TABELAS ANTIGAS CONFLITANTES:
+    # limpa as tabelas em conflitos
     Base.metadata.drop_all(engine)
     
     # Recria as tabelas do zero com a estrutura correta
@@ -81,13 +81,14 @@ def inserir_dados(session):
         print("Editora cadastrada com sucesso!")
         
     elif op == '2':
-        # 1. Busca todas as editoras para listar e validar
+
+        # Busca todas as editoras para listar e validar
         editoras = session.query(Editora).all()
         if not editoras:
             print("\nNenhuma editora cadastrada! Cadastre ao menos uma editora primeiro.")
             return
         
-        # 2. Exibe a lista de editoras cadastradas com ID e Nome
+        # Exibe a lista de editoras cadastradas com ID e Nome
         print("\n--- EDITORAS DISPONÍVEIS ---")
         for ed in editoras:
             print(f"ID: {ed.id} | Nome: {ed.nome} ({ed.cidade})")
@@ -98,13 +99,13 @@ def inserir_dados(session):
             print("ID inválido! Digite apenas números.")
             return
 
-        # 3. Valida se a editora existe no banco
+        # Valida se a editora existe no banco
         editora_existe = session.query(Editora).filter_by(id=editora_id).first()
         if not editora_existe:
             print(f"Erro: Não existe nenhuma Editora com o ID {editora_id}!")
             return
 
-        # 4. Coleta os dados do livro apenas se a editora for válida
+        # Coleta os dados do livro apenas se a editora for válida
         titulo = input("Título do Livro: ")
         genero = input("Gênero: ")
         try:
@@ -117,6 +118,7 @@ def inserir_dados(session):
         session.add(novo_livro)
         session.commit()
         print(f" Livro '{titulo}' cadastrado com sucesso para a editora '{editora_existe.nome}'!")
+
 
 def listar_dados(session):
     print("\nLISTAR")
@@ -132,6 +134,7 @@ def listar_dados(session):
                 print(f"  └─ Livro ID {l.id}: {l.titulo} | Gênero: {l.genero} | R$ {l.preco:.2f}")
         else:
             print("  └─ Nenhum livro cadastrado para esta editora.")
+
 
 def excluir_dados(session):
     print("\nEXCLUIR")
@@ -159,7 +162,7 @@ def excluir_dados(session):
         else:
             print("Livro não encontrado.")
 
-#MENU PRINCIPAL
+#menu principal
 def main():
     session = conectar_banco()
     
@@ -187,6 +190,7 @@ def main():
             break
         else:
             print("Opção inválida!")
+
 
 if __name__ == "__main__":
     main()
