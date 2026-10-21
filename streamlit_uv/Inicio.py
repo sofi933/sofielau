@@ -16,6 +16,7 @@ Este é um exemplo de aplicação com três páginas.
 Utilize o menu lateral para navegar entre elas:
 - Página 1: apresentação de dados.
 - Página 2: interação com o usuário.
+- Página 3: cadastro de telefones.
 """)
 
 # texto de informação
