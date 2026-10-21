@@ -1,4 +1,5 @@
 import streamlit as st
+from dados import dados
 
 # título da página (H1)
 st.title("Página de Listagem de Dados")
